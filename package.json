@@ -16,6 +16,7 @@
     "react-addons-shallow-compare": "^15.4.2",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.4.2",
+    "react-masonry-component": "^5.0.4",
     "react-router-dom": "^4.0.0",
     "react-selectize": "^2.1.0"
   }

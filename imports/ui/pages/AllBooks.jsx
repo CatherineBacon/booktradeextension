@@ -16,6 +16,7 @@ import {
 import { Books } from '../../api/books.js';
 
 import Book from '../components/Book.jsx';
+import BookGrid from '../components/BookGrid.jsx';
 
 class AllBooks extends Component {
   constructor(props) {
@@ -50,21 +51,7 @@ class AllBooks extends Component {
       );
     }
 
-    let bookComponents = [];
-
-    filteredBooks.forEach((book, i) => {
-      bookComponents.push(
-        <Col sm={4} key={book._id} className="clearfix">
-          <Book book={book} page="AllBooks" />
-        </Col>,
-      );
-
-      if ((i + 1) % 3 == 0) {
-        bookComponents.push(<Clearfix key={i} />);
-      }
-    });
-
-    return bookComponents;
+    return <BookGrid books={filteredBooks} page="AllBooks" />;
   }
 
   render() {

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
-
+import './book.css';
 import {
   Thumbnail,
   Button,
@@ -14,7 +14,6 @@ import { Books } from '../../api/books.js';
 
 const defaultImage = '/image/book.png';
 
-// Book component - represents a single book
 export default class Book extends Component {
   toggleTradeProposed() {
     Meteor.call('books.toggleTradeProposed', this.props.book);
@@ -50,6 +49,7 @@ export default class Book extends Component {
         src={book.image || defaultImage}
         alt="cover picture"
         className={bookClassName}
+        className="book"
       >
 
         <h4 className={bookClassName}>

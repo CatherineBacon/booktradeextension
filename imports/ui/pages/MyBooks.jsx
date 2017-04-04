@@ -15,6 +15,7 @@ import {
 import { Books } from '../../api/books.js';
 
 import Book from '../components/Book.jsx';
+import BookGrid from '../components/BookGrid.jsx';
 import Trader from '../components/Trader.jsx';
 import AddBook from '../components/AddBook.jsx';
 
@@ -87,21 +88,23 @@ class MyBooks extends Component {
       filteredBooks = filteredBooks.filter(book => book.tradeProposed);
     }
 
-    let bookComponents = [];
+    return <BookGrid books={filteredBooks} page="AllBooks" />;
 
-    filteredBooks.forEach((book, i) => {
-      bookComponents.push(
-        <Col sm={4} key={book._id} className="clearfix">
-          <Book book={book} page="AllBooks" />
-        </Col>,
-      );
+    //let bookComponents = [];
 
-      if ((i + 1) % 3 == 0) {
-        bookComponents.push(<Clearfix key={i} />);
-      }
-    });
+    //filteredBooks.forEach((book, i) => {
+    //bookComponents.push(
+    //<Col sm={4} key={book._id} className="clearfix">
+    //<Book book={book} page="AllBooks" />
+    //  </Col>,
+    //);
 
-    return bookComponents;
+    //      if ((i + 1) % 3 == 0) {
+    //      bookComponents.push(<Clearfix key={i} />);
+    //  }
+    //  });
+
+    //return bookComponents;
   }
 
   render() {
