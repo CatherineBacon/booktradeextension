@@ -9,9 +9,9 @@ if (Meteor.isServer) {
         fields: {
           fullName: 1,
           city: 1,
-          country: 1
-        }
-      }
+          country: 1,
+        },
+      },
     );
   });
 }
@@ -32,9 +32,9 @@ Meteor.methods({
         $set: {
           fullName: fullName,
           city: city,
-          country: country
-        }
-      }
+          country: country,
+        },
+      },
     );
-  }
+  },
 });

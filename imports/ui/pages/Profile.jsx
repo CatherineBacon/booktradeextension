@@ -129,32 +129,3 @@ export default createContainer(
   },
   Profile,
 );
-
-//<label>
-//  Full name:
-//  <input
-//    type="text"
-//    name="fullName"
-//    onChange={this.handleInputChange}
-//    value={this.state.fullName}
-//  />
-//</label>
-//<label>
-//  Town/City:
-//  <input
-//    type="text"
-//    name="city"
-//    onChange={this.handleInputChange}
-//    value={this.state.city}
-//  />
-//</label>
-//<label>
-//  Country:
-//  <input
-//    type="text"
-//    name="country"
-//    onChange={this.handleInputChange}
-//    value={this.state.country}
-//  />
-//</label>
-//<input type="submit" value="Submit" />

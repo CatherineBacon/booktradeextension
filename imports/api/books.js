@@ -11,13 +11,53 @@ if (Meteor.isServer) {
     check(limit, Number);
     return Books.find({}, { sort: { createdAt: -1 }, limit });
   });
+
+  Meteor.publish('booksByOwner', (owner, limit) => {
+    check(owner, String);
+    check(limit, Number);
+
+    return Books.find({ owner }, { sort: { createdAt: -1 }, limit });
+  });
 }
 
 Meteor.methods({
+  // Book counts
   'books.countAll'() {
     return Books.find().count();
   },
 
+  'books.availableToTradeCount'() {
+    return Books.find({
+      tradeProposed: { $ne: true },
+      owner: { $ne: Meteor.userId() },
+    }).count();
+  },
+
+  'books.countByOwner'(owner) {
+    check(owner, String);
+
+    return Books.find({ owner }).count();
+  },
+
+  'books.countByTradeProposedByOwner'(owner) {
+    check(owner, String);
+
+    return Books.find({
+      tradeProposed: { $ne: false },
+      owner,
+    }).count();
+  },
+
+  'books.countTradeProposedByUser'(user) {
+    check(user, String);
+
+    return Books.find({
+      tradeProposed: { $ne: false },
+      proposedById: user,
+    }).count();
+  },
+
+  // Book manipulations
   'books.insert'(book) {
     check(
       book,
@@ -70,10 +110,10 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    let ownerOne = firstBook.owner;
-    let usernameOne = firstBook.username;
-    let ownerTwo = secondBook.owner;
-    let usernameTwo = secondBook.username;
+    const ownerOne = firstBook.owner;
+    const usernameOne = firstBook.username;
+    const ownerTwo = secondBook.owner;
+    const usernameTwo = secondBook.username;
 
     Books.update(firstBook._id, {
       $set: {
@@ -100,7 +140,7 @@ Meteor.methods({
     check(book._id, String);
     check(book.owner, String);
 
-    if (book.owner != Meteor.userId()) {
+    if (book.owner !== Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
 
@@ -123,15 +163,15 @@ Meteor.methods({
       proposedByUsername = Meteor.user().username;
     }
 
-    if (book.tradeProposed && Meteor.userId() != book.proposedById) {
+    if (book.tradeProposed && Meteor.userId() !== book.proposedById) {
       throw new Meteor.Error('not-authorized');
     }
 
     Books.update(book._id, {
       $set: {
         tradeProposed: !book.tradeProposed,
-        proposedById: proposedById,
-        proposedByUsername: proposedByUsername,
+        proposedById,
+        proposedByUsername,
       },
     });
   },

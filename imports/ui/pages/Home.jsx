@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import { Grid, Row, Panel, Col, Jumbotron } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Row, Panel, Col, Jumbotron } from 'react-bootstrap';
 
 export default class Home extends Component {
   render() {

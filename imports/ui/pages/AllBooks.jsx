@@ -120,6 +120,7 @@ AllBooks.propTypes = {
 
 const limit = new ReactiveVar(10);
 const bookCount = new ReactiveVar(0);
+const availableToTradeCount = new ReactiveVar(0);
 
 export default createContainer(
   () => {
@@ -132,6 +133,11 @@ export default createContainer(
 
     const canLoadMore = limit.get() < bookCount.get();
 
+    Meteor.call('books.availableToTradeCount', (error, count) => {
+      if (error) return console.log(error);
+      availableToTradeCount.set(count);
+    });
+
     return {
       books: Books.find(
         {},
@@ -139,10 +145,7 @@ export default createContainer(
           sort: { createdAt: -1 },
         },
       ).fetch(),
-      availableToTradeCount: Books.find({
-        tradeProposed: { $ne: true },
-        owner: { $ne: Meteor.userId() },
-      }).count(),
+      availableToTradeCount: availableToTradeCount.get(),
       currentUser: Meteor.user(),
       loadMore: () => limit.set(limit.get() + 5),
       canLoadMore,
