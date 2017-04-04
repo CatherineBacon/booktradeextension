@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "allowImportExportEverywhere": true
+  },
+  "extends": [
+    "airbnb",
+    "plugin:meteor/recommended"
+  ],
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import",
+    "meteor"
+  ],
+  "settings": {
+    "import/resolver": "meteor"
+  },
+  "rules": {
+    "no-underscore-dangle": "warn",
+    "arrow-parens": "warn"
+  }
+}

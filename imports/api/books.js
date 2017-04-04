@@ -7,12 +7,17 @@ export const Books = new Mongo.Collection('books');
 
 if (Meteor.isServer) {
   // This code only runs on the server
-  Meteor.publish('books', function booksPublication() {
-    return Books.find();
+  Meteor.publish('books', limit => {
+    check(limit, Number);
+    return Books.find({}, { sort: { createdAt: -1 }, limit });
   });
 }
 
 Meteor.methods({
+  'books.countAll'() {
+    return Books.find().count();
+  },
+
   'books.insert'(book) {
     check(
       book,
@@ -20,8 +25,8 @@ Meteor.methods({
         title: String,
         authors: Match.Optional([String]),
         thumbnail: Match.Optional(String),
-        description: Match.Optional(String)
-      })
+        description: Match.Optional(String),
+      }),
     );
 
     // make sure user is logged in before inserting book
@@ -43,7 +48,7 @@ Meteor.methods({
       username: Meteor.user().username,
       tradeProposed: false,
       proposedById: '',
-      proposedByUsername: ''
+      proposedByUsername: '',
     });
   },
 
@@ -52,8 +57,8 @@ Meteor.methods({
       $set: {
         tradeProposed: false,
         proposedById: '',
-        proposedByUsername: ''
-      }
+        proposedByUsername: '',
+      },
     });
   },
 
@@ -76,8 +81,8 @@ Meteor.methods({
         username: usernameTwo,
         tradeProposed: false,
         proposedById: '',
-        proposedByUsername: ''
-      }
+        proposedByUsername: '',
+      },
     });
     Books.update(secondBook._id, {
       $set: {
@@ -85,8 +90,8 @@ Meteor.methods({
         username: usernameOne,
         tradeProposed: false,
         proposedById: '',
-        proposedByUsername: ''
-      }
+        proposedByUsername: '',
+      },
     });
     Meteor.call('successfulTrades.insert', firstBook, secondBook);
   },
@@ -126,8 +131,8 @@ Meteor.methods({
       $set: {
         tradeProposed: !book.tradeProposed,
         proposedById: proposedById,
-        proposedByUsername: proposedByUsername
-      }
+        proposedByUsername: proposedByUsername,
+      },
     });
-  }
+  },
 });

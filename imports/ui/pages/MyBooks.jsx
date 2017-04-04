@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import { ReactiveVar } from 'meteor/reactive-var';
+import VisibilitySensor from 'react-visibility-sensor';
 import {
   Row,
   Col,
@@ -32,6 +34,10 @@ class MyBooks extends Component {
     this.setState({
       onlyShowProposed: !this.state.onlyShowProposed,
     });
+  }
+
+  loadMore(isVisible) {
+    if (isVisible) this.props.loadMore();
   }
 
   renderYourRequests() {
@@ -89,22 +95,6 @@ class MyBooks extends Component {
     }
 
     return <BookGrid books={filteredBooks} page="AllBooks" />;
-
-    //let bookComponents = [];
-
-    //filteredBooks.forEach((book, i) => {
-    //bookComponents.push(
-    //<Col sm={4} key={book._id} className="clearfix">
-    //<Book book={book} page="AllBooks" />
-    //  </Col>,
-    //);
-
-    //      if ((i + 1) % 3 == 0) {
-    //      bookComponents.push(<Clearfix key={i} />);
-    //  }
-    //  });
-
-    //return bookComponents;
   }
 
   render() {
@@ -157,6 +147,11 @@ class MyBooks extends Component {
               {this.renderBooks()}
             </Row>
           </Col>
+          <VisibilitySensor
+            onChange={this.loadMore.bind(this)}
+            offset={{ direction: 'bottom', value: -300 }}
+            active={this.props.canLoadMore}
+          />
         </Row>
       );
     } else {
@@ -169,11 +164,23 @@ MyBooks.propTypes = {
   books: PropTypes.array.isRequired,
   tradeProposedCount: PropTypes.number.isRequired,
   youProposedTradeCount: PropTypes.number.isRequired,
+  loadMore: PropTypes.func.isRequired,
+  canLoadMore: PropTypes.bool.isRequired,
 };
+
+const limit = new ReactiveVar(10);
+const bookCount = new ReactiveVar(0);
 
 export default createContainer(
   () => {
-    Meteor.subscribe('books');
+    Meteor.subscribe('books', limit.get());
+
+    Meteor.call('books.countAll', (error, count) => {
+      if (error) return console.log(error);
+      bookCount.set(count);
+    });
+
+    const canLoadMore = limit.get() < bookCount.get();
 
     return {
       books: Books.find(
@@ -194,6 +201,8 @@ export default createContainer(
         proposedById: Meteor.userId(),
       }).count(),
       currentUser: Meteor.user(),
+      loadMore: () => limit.set(limit.get() + 5),
+      canLoadMore,
     };
   },
   MyBooks,

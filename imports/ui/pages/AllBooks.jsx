@@ -1,22 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import { ReactiveVar } from 'meteor/reactive-var';
+import VisibilitySensor from 'react-visibility-sensor';
+import { Row, Col, PageHeader, Checkbox, Badge } from 'react-bootstrap';
 
-import {
-  Grid,
-  Row,
-  Col,
-  Clearfix,
-  PageHeader,
-  Checkbox,
-  Badge,
-} from 'react-bootstrap';
+import { Books } from '../../api/books';
 
-import { Books } from '../../api/books.js';
-
-import Book from '../components/Book.jsx';
-import BookGrid from '../components/BookGrid.jsx';
+import BookGrid from '../components/BookGrid';
 
 class AllBooks extends Component {
   constructor(props) {
@@ -26,18 +17,25 @@ class AllBooks extends Component {
       hideTradeProposed: false,
       hideMyBooks: true,
     };
+
+    this.toggleHideTradeProposed = this._toggleHideTradeProposed.bind(this);
+    this.toggleHideMyBooks = this._toggleHideMyBooks.bind(this);
   }
 
-  toggleHideTradeProposed() {
+  _toggleHideTradeProposed() {
     this.setState({
       hideTradeProposed: !this.state.hideTradeProposed,
     });
   }
 
-  toggleHideMyBooks() {
+  _toggleHideMyBooks() {
     this.setState({
       hideMyBooks: !this.state.hideMyBooks,
     });
+  }
+
+  loadMore(isVisible) {
+    if (isVisible) this.props.loadMore();
   }
 
   renderBooks() {
@@ -47,7 +45,7 @@ class AllBooks extends Component {
     }
     if (this.state.hideMyBooks) {
       filteredBooks = filteredBooks.filter(
-        book => book.owner != Meteor.userId(),
+        book => book.owner !== Meteor.userId(),
       );
     }
 
@@ -75,7 +73,7 @@ class AllBooks extends Component {
               type="checkbox"
               readOnly
               checked={this.state.hideTradeProposed}
-              onClick={this.toggleHideTradeProposed.bind(this)}
+              onClick={this.toggleHideTradeProposed}
             >
               Hide books where trade has been proposed
             </Checkbox>
@@ -86,7 +84,7 @@ class AllBooks extends Component {
               className="hide-myBooks"
               readOnly
               checked={this.state.hideMyBooks}
-              onClick={this.toggleHideMyBooks.bind(this)}
+              onClick={this.toggleHideMyBooks}
             >
               Hide my own books
             </Checkbox>
@@ -101,22 +99,38 @@ class AllBooks extends Component {
               {this.renderBooks()}
             </Row>
           </Col>
+          <VisibilitySensor
+            onChange={this.loadMore.bind(this)}
+            offset={{ direction: 'bottom', value: -300 }}
+            active={this.props.canLoadMore}
+          />
         </Row>
       );
-    } else {
-      return <PageHeader>Please login</PageHeader>;
     }
+    return <PageHeader>Please login</PageHeader>;
   }
 }
 
 AllBooks.propTypes = {
   books: PropTypes.array.isRequired,
   availableToTradeCount: PropTypes.number.isRequired,
+  loadMore: PropTypes.func.isRequired,
+  canLoadMore: PropTypes.bool.isRequired,
 };
+
+const limit = new ReactiveVar(10);
+const bookCount = new ReactiveVar(0);
 
 export default createContainer(
   () => {
-    Meteor.subscribe('books');
+    Meteor.subscribe('books', limit.get());
+
+    Meteor.call('books.countAll', (error, count) => {
+      if (error) return console.log(error);
+      bookCount.set(count);
+    });
+
+    const canLoadMore = limit.get() < bookCount.get();
 
     return {
       books: Books.find(
@@ -130,6 +144,8 @@ export default createContainer(
         owner: { $ne: Meteor.userId() },
       }).count(),
       currentUser: Meteor.user(),
+      loadMore: () => limit.set(limit.get() + 5),
+      canLoadMore,
     };
   },
   AllBooks,
