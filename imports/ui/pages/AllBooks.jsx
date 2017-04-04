@@ -10,12 +10,12 @@ import {
   Clearfix,
   PageHeader,
   Checkbox,
-  Badge
+  Badge,
 } from 'react-bootstrap';
 
-import { Books } from '../api/books.js';
+import { Books } from '../../api/books.js';
 
-import Book from './Book.jsx';
+import Book from '../components/Book.jsx';
 
 class AllBooks extends Component {
   constructor(props) {
@@ -23,19 +23,19 @@ class AllBooks extends Component {
 
     this.state = {
       hideTradeProposed: false,
-      hideMyBooks: true
+      hideMyBooks: true,
     };
   }
 
   toggleHideTradeProposed() {
     this.setState({
-      hideTradeProposed: !this.state.hideTradeProposed
+      hideTradeProposed: !this.state.hideTradeProposed,
     });
   }
 
   toggleHideMyBooks() {
     this.setState({
-      hideMyBooks: !this.state.hideMyBooks
+      hideMyBooks: !this.state.hideMyBooks,
     });
   }
 
@@ -46,7 +46,7 @@ class AllBooks extends Component {
     }
     if (this.state.hideMyBooks) {
       filteredBooks = filteredBooks.filter(
-        book => book.owner != Meteor.userId()
+        book => book.owner != Meteor.userId(),
       );
     }
 
@@ -56,7 +56,7 @@ class AllBooks extends Component {
       bookComponents.push(
         <Col sm={4} key={book._id} className="clearfix">
           <Book book={book} page="AllBooks" />
-        </Col>
+        </Col>,
       );
 
       if ((i + 1) % 3 == 0) {
@@ -124,7 +124,7 @@ class AllBooks extends Component {
 
 AllBooks.propTypes = {
   books: PropTypes.array.isRequired,
-  availableToTradeCount: PropTypes.number.isRequired
+  availableToTradeCount: PropTypes.number.isRequired,
 };
 
 export default createContainer(
@@ -135,15 +135,15 @@ export default createContainer(
       books: Books.find(
         {},
         {
-          sort: { createdAt: -1 }
-        }
+          sort: { createdAt: -1 },
+        },
       ).fetch(),
       availableToTradeCount: Books.find({
         tradeProposed: { $ne: true },
-        owner: { $ne: Meteor.userId() }
+        owner: { $ne: Meteor.userId() },
       }).count(),
-      currentUser: Meteor.user()
+      currentUser: Meteor.user(),
     };
   },
-  AllBooks
+  AllBooks,
 );

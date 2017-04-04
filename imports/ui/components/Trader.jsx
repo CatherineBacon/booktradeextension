@@ -5,10 +5,10 @@ import {
   FormControl,
   ControlLabel,
   Button,
-  Form
+  Form,
 } from 'react-bootstrap';
 
-import { Books } from '../api/books.js';
+import { Books } from '../../api/books.js';
 
 import Book from './Book.jsx';
 
@@ -16,7 +16,7 @@ export default class Trader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'Decline Trade'
+      value: 'Decline Trade',
     };
   }
 
@@ -43,7 +43,7 @@ export default class Trader extends Component {
 
   handleChange(event) {
     this.setState({
-      value: event.target.value
+      value: event.target.value,
     });
   }
 
@@ -75,5 +75,5 @@ export default class Trader extends Component {
 
 Trader.propTypes = {
   book: PropTypes.object.isRequired,
-  traderBooks: PropTypes.array.isRequired
+  traderBooks: PropTypes.array.isRequired,
 };

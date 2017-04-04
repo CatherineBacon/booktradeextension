@@ -7,11 +7,11 @@ import { Grid, Row, Col, Panel } from 'react-bootstrap';
 
 import { Books } from '../api/books.js';
 
-import Book from './Book.jsx';
-import MyBooks from './MyBooks.jsx';
-import AllBooks from './AllBooks.jsx';
-import Profile from './Profile.jsx';
-import MySuccessfulTrades from './MySuccessfulTrades.jsx';
+import Book from './components/Book.jsx';
+import MyBooks from './pages/MyBooks.jsx';
+import AllBooks from './pages/AllBooks.jsx';
+import Profile from './pages/Profile.jsx';
+import MySuccessfulTrades from './pages/MySuccessfulTrades.jsx';
 import Menu from './components/Menu.jsx';
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
@@ -56,7 +56,7 @@ class App extends Component {
 
 App.propTypes = {
   books: PropTypes.array.isRequired,
-  currentUser: PropTypes.object
+  currentUser: PropTypes.object,
 };
 
 export default createContainer(
@@ -67,10 +67,10 @@ export default createContainer(
       books: Books.find(
         {},
         {
-          sort: { createdAt: -1 }
-        }
-      ).fetch()
+          sort: { createdAt: -1 },
+        },
+      ).fetch(),
     };
   },
-  App
+  App,
 );

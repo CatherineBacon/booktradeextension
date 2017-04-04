@@ -8,11 +8,11 @@ import {
   Col,
   PageHeader,
   ListGroup,
-  ListGroupItem
+  ListGroupItem,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { SuccessfulTrades } from '../api/successfulTrades.js';
+import { SuccessfulTrades } from '../../api/successfulTrades.js';
 
 class MySuccessfulTrades extends Component {
   render() {
@@ -59,7 +59,7 @@ class MySuccessfulTrades extends Component {
 }
 
 MySuccessfulTrades.propTypes = {
-  successfulTrades: PropTypes.array.isRequired
+  successfulTrades: PropTypes.array.isRequired,
 };
 
 export default createContainer(
@@ -70,11 +70,11 @@ export default createContainer(
       successfulTrades: SuccessfulTrades.find(
         { owner: Meteor.userId() },
         {
-          sort: { createdAt: -1 }
-        }
+          sort: { createdAt: -1 },
+        },
       ).fetch(),
-      currentUser: Meteor.user()
+      currentUser: Meteor.user(),
     };
   },
-  MySuccessfulTrades
+  MySuccessfulTrades,
 );

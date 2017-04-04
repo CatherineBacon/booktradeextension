@@ -27,7 +27,7 @@ export default class Home extends Component {
             </Col>
             <Col sm={6}>
               <Panel>
-                Manage trades with users from all over the word
+                Manage trades with users from all over the world
               </Panel>
             </Col>
           </Row>

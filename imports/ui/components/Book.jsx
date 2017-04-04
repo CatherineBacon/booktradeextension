@@ -7,10 +7,10 @@ import {
   Glyphicon,
   Checkbox,
   Popover,
-  OverlayTrigger
+  OverlayTrigger,
 } from 'react-bootstrap';
 
-import { Books } from '../api/books.js';
+import { Books } from '../../api/books.js';
 
 const defaultImage = '/image/book.png';
 
@@ -93,5 +93,5 @@ export default class Book extends Component {
 }
 
 Book.propTypes = {
-  book: PropTypes.object.isRequired
+  book: PropTypes.object.isRequired,
 };

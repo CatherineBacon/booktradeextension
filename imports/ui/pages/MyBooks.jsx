@@ -9,34 +9,34 @@ import {
   PageHeader,
   Badge,
   Media,
-  Checkbox
+  Checkbox,
 } from 'react-bootstrap';
 
-import { Books } from '../api/books.js';
+import { Books } from '../../api/books.js';
 
-import Book from './Book.jsx';
-import Trader from './Trader.jsx';
-import AddBook from './components/AddBook.jsx';
+import Book from '../components/Book.jsx';
+import Trader from '../components/Trader.jsx';
+import AddBook from '../components/AddBook.jsx';
 
 class MyBooks extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      onlyShowProposed: false
+      onlyShowProposed: false,
     };
   }
 
   toggleOnlyShowProposed() {
     this.setState({
-      onlyShowProposed: !this.state.onlyShowProposed
+      onlyShowProposed: !this.state.onlyShowProposed,
     });
   }
 
   renderYourRequests() {
     let books = this.props.books;
     let filteredBooks = books.filter(
-      book => book.proposedById == Meteor.userId()
+      book => book.proposedById == Meteor.userId(),
     );
     let bookComponents = [];
 
@@ -44,7 +44,7 @@ class MyBooks extends Component {
       bookComponents.push(
         <Col sm={4} key={book._id} className="clearfix">
           <Book book={book} page="AllBooks" />
-        </Col>
+        </Col>,
       );
 
       if ((i + 1) % 3 == 0) {
@@ -58,7 +58,7 @@ class MyBooks extends Component {
   renderTradeRequests() {
     let books = this.props.books;
     let filteredBooks = books.filter(
-      book => book.owner == Meteor.userId() && book.tradeProposed
+      book => book.owner == Meteor.userId() && book.tradeProposed,
     );
 
     return filteredBooks.map(book => {
@@ -93,7 +93,7 @@ class MyBooks extends Component {
       bookComponents.push(
         <Col sm={4} key={book._id} className="clearfix">
           <Book book={book} page="AllBooks" />
-        </Col>
+        </Col>,
       );
 
       if ((i + 1) % 3 == 0) {
@@ -165,7 +165,7 @@ class MyBooks extends Component {
 MyBooks.propTypes = {
   books: PropTypes.array.isRequired,
   tradeProposedCount: PropTypes.number.isRequired,
-  youProposedTradeCount: PropTypes.number.isRequired
+  youProposedTradeCount: PropTypes.number.isRequired,
 };
 
 export default createContainer(
@@ -176,22 +176,22 @@ export default createContainer(
       books: Books.find(
         {},
         {
-          sort: { createdAt: -1 }
-        }
+          sort: { createdAt: -1 },
+        },
       ).fetch(),
       yourBooksCount: Books.find({
-        owner: Meteor.userId()
+        owner: Meteor.userId(),
       }).count(),
       tradeProposedCount: Books.find({
         tradeProposed: { $ne: false },
-        owner: Meteor.userId()
+        owner: Meteor.userId(),
       }).count(),
       youProposedTradeCount: Books.find({
         tradeProposed: { $ne: false },
-        proposedById: Meteor.userId()
+        proposedById: Meteor.userId(),
       }).count(),
-      currentUser: Meteor.user()
+      currentUser: Meteor.user(),
     };
   },
-  MyBooks
+  MyBooks,
 );

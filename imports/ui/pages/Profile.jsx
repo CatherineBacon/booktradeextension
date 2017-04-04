@@ -9,10 +9,10 @@ import {
   Form,
   FormGroup,
   FormControl,
-  Button
+  Button,
 } from 'react-bootstrap';
 
-import UserInfo from '../api/users.js';
+import UserInfo from '../../api/users.js';
 
 class Profile extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class Profile extends Component {
     this.state = {
       fullName: '',
       city: '',
-      country: ''
+      country: '',
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -31,7 +31,7 @@ class Profile extends Component {
     const { value, name } = event.target;
 
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
@@ -45,7 +45,7 @@ class Profile extends Component {
     this.setState({
       fullName: '',
       city: '',
-      country: ''
+      country: '',
     });
   }
 
@@ -124,10 +124,10 @@ export default createContainer(
     Meteor.subscribe('Meteor.users.additionalinfo');
 
     return {
-      currentUser: Meteor.user()
+      currentUser: Meteor.user(),
     };
   },
-  Profile
+  Profile,
 );
 
 //<label>
