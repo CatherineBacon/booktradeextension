@@ -78,7 +78,6 @@ class Trader extends Component {
 
 Trader.propTypes = {
   book: PropTypes.object.isRequired,
-  traderBooks: PropTypes.object.isRequired,
   traderBooks: PropTypes.array.isRequired,
 };
 
@@ -89,7 +88,7 @@ export default createContainer(
 
     return {
       traderBooks: Books.find(
-        {},
+        { owner: traderId },
         {
           sort: { createdAt: -1 },
         },

@@ -26,7 +26,7 @@ if (Meteor.isServer) {
     );
   });
 
-  Meteor.publish('booksByOwner', (owner, limit) => {
+  Meteor.publish('booksByOwner', (owner, limit = 100) => {
     check(owner, String);
     check(limit, Number);
     return Books.find({ owner }, { sort: { createdAt: -1 }, limit });

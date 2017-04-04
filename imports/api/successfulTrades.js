@@ -7,12 +7,13 @@ export const SuccessfulTrades = new Mongo.Collection('successfulTrades');
 if (Meteor.isServer) {
   // This code only runs on the server
   Meteor.publish('successfulTrades', function tradesPublication() {
+    console.log(this.userId);
     return SuccessfulTrades.find(
-      { owner: this.userId },
+      {},
       {
         sort: { createdAt: -1 },
-        limit: 100
-      }
+        limit: 100,
+      },
     );
   });
 }
@@ -31,7 +32,7 @@ Meteor.methods({
       ownerBookTitle: firstBook.title,
       traderBookId: secondBook._id,
       traderBookTitle: secondBook.title,
-      createdAt: new Date()
+      createdAt: new Date(),
     });
 
     SuccessfulTrades.insert({
@@ -43,7 +44,7 @@ Meteor.methods({
       ownerBookTitle: secondBook.title,
       traderBookId: firstBook._id,
       traderBookTitle: firstBook.title,
-      createdAt: new Date()
+      createdAt: new Date(),
     });
-  }
+  },
 });
