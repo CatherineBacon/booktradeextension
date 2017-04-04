@@ -98,7 +98,6 @@ class MyBooks extends Component {
   }
 
   render() {
-    Meteor.subscribe('books');
     if (this.props.currentUser) {
       return (
         <Row>
@@ -154,9 +153,8 @@ class MyBooks extends Component {
           />
         </Row>
       );
-    } else {
-      return <PageHeader>Please login</PageHeader>;
     }
+    return <PageHeader>Please login</PageHeader>;
   }
 }
 

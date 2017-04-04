@@ -37,7 +37,7 @@ export default class Book extends Component {
   render() {
     const bookClassName = this.props.book.tradeProposed ? 'tradeProposed' : '';
     const { book } = this.props;
-    const canDelete = book.owner == Meteor.userId();
+    const canDelete = book.owner === Meteor.userId();
     const overlay = (
       <Popover title={book.title} id={book.title}>
         {book.description || <em>no description</em>}
@@ -48,8 +48,7 @@ export default class Book extends Component {
       <Thumbnail
         src={book.image || defaultImage}
         alt="cover picture"
-        className={bookClassName}
-        className="book"
+        className={bookClassName + ' book'}
       >
 
         <h4 className={bookClassName}>

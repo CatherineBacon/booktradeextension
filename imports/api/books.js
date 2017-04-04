@@ -6,7 +6,6 @@ import { _ } from 'lodash';
 export const Books = new Mongo.Collection('books');
 
 if (Meteor.isServer) {
-  // This code only runs on the server
   Meteor.publish('books', limit => {
     check(limit, Number);
     return Books.find({}, { sort: { createdAt: -1 }, limit });
@@ -93,6 +92,9 @@ Meteor.methods({
   },
 
   'books.declineTrade'(book) {
+    check(book, Object);
+    check(book._id, String);
+
     Books.update(book._id, {
       $set: {
         tradeProposed: false,
@@ -106,7 +108,7 @@ Meteor.methods({
     check(firstBook, Object);
     check(secondBook, Object);
 
-    if (firstBook.owner != Meteor.userId()) {
+    if (firstBook.owner !== Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
 
@@ -137,6 +139,7 @@ Meteor.methods({
   },
 
   'books.remove'(book) {
+    check(book, Object);
     check(book._id, String);
     check(book.owner, String);
 
@@ -148,11 +151,12 @@ Meteor.methods({
   },
 
   'books.toggleTradeProposed'(book) {
+    check(book, Object);
     check(book._id, String);
     check(book.tradeProposed, Boolean);
     check(book.owner, String);
 
-    if (!book.tradeProposed && Meteor.userId() == book.owner) {
+    if (!book.tradeProposed && Meteor.userId() === book.owner) {
       throw new Meteor.Error('not-authorized');
     }
 
