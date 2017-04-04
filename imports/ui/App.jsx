@@ -1,13 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Grid, Row, Col, Panel } from 'react-bootstrap';
 
-import { Books } from '../api/books.js';
+import { Books } from '../api/books';
 
-import Book from './components/Book.jsx';
 import MyBooks from './pages/MyBooks.jsx';
 import AllBooks from './pages/AllBooks.jsx';
 import Profile from './pages/Profile.jsx';

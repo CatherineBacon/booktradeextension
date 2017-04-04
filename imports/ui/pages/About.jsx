@@ -22,7 +22,7 @@ export default class Home extends Component {
             <strong>
               Final app:
               {' '}
-              <a ref="https://catherinebookexchange.herokuapp.com/">
+              <a href="https://catherinebookexchange.herokuapp.com/">
                 https://catherinebookexchange.herokuapp.com/
               </a>
             </strong>

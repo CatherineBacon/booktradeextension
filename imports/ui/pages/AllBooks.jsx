@@ -7,7 +7,7 @@ import { Row, Col, PageHeader, Checkbox, Badge } from 'react-bootstrap';
 
 import { Books } from '../../api/books';
 
-import BookGrid from '../components/BookGrid';
+import BookGrid from '../components/BookGrid.jsx';
 
 class AllBooks extends Component {
   constructor(props) {
@@ -20,6 +20,7 @@ class AllBooks extends Component {
 
     this.toggleHideTradeProposed = this._toggleHideTradeProposed.bind(this);
     this.toggleHideMyBooks = this._toggleHideMyBooks.bind(this);
+    this.loadMore = this._loadMore.bind(this);
   }
 
   _toggleHideTradeProposed() {
@@ -34,7 +35,7 @@ class AllBooks extends Component {
     });
   }
 
-  loadMore(isVisible) {
+  _loadMore(isVisible) {
     if (isVisible) this.props.loadMore();
   }
 
@@ -100,7 +101,7 @@ class AllBooks extends Component {
             </Row>
           </Col>
           <VisibilitySensor
-            onChange={this.loadMore.bind(this)}
+            onChange={this.loadMore}
             offset={{ direction: 'bottom', value: -300 }}
             active={this.props.canLoadMore}
           />

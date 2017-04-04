@@ -14,8 +14,14 @@ if (Meteor.isServer) {
   Meteor.publish('booksByOwner', (owner, limit) => {
     check(owner, String);
     check(limit, Number);
-
     return Books.find({ owner }, { sort: { createdAt: -1 }, limit });
+  });
+
+  Meteor.publish('booksByTrader', traderId => {
+    console.log('publish called');
+    check(traderId, String);
+    console.log(traderId, this.userId);
+    return Books.find({ proposedById: traderId }, { sort: { createdAt: -1 } });
   });
 }
 

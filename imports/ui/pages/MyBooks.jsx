@@ -1,25 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { ReactiveVar } from 'meteor/reactive-var';
 import VisibilitySensor from 'react-visibility-sensor';
-import {
-  Row,
-  Col,
-  Clearfix,
-  PageHeader,
-  Badge,
-  Media,
-  Checkbox,
-} from 'react-bootstrap';
+import { Row, Col, PageHeader, Badge, Media, Checkbox } from 'react-bootstrap';
 
-import { Books } from '../../api/books.js';
+import { Books } from '../../api/books';
 
-import Book from '../components/Book.jsx';
 import BookGrid from '../components/BookGrid.jsx';
 import Trader from '../components/Trader.jsx';
 import AddBook from '../components/AddBook.jsx';
+import YourRequests from '../components/YourRequests.jsx';
 
 class MyBooks extends Component {
   constructor(props) {
@@ -28,38 +19,19 @@ class MyBooks extends Component {
     this.state = {
       onlyShowProposed: false,
     };
+
+    this.toggleOnlyShowProposed = this._toggleOnlyShowProposed.bind(this);
+    this.loadMore = this._loadMore.bind(this);
   }
 
-  toggleOnlyShowProposed() {
+  _toggleOnlyShowProposed() {
     this.setState({
       onlyShowProposed: !this.state.onlyShowProposed,
     });
   }
 
-  loadMore(isVisible) {
+  _loadMore(isVisible) {
     if (isVisible) this.props.loadMore();
-  }
-
-  renderYourRequests() {
-    const books = this.props.books;
-    const filteredBooks = books.filter(
-      book => book.proposedById === Meteor.userId(),
-    );
-    let bookComponents = [];
-
-    filteredBooks.forEach((book, i) => {
-      bookComponents.push(
-        <Col sm={4} key={book._id} className="clearfix">
-          <Book book={book} page="AllBooks" />
-        </Col>,
-      );
-
-      if ((i + 1) % 3 === 0) {
-        bookComponents.push(<Clearfix key={i} />);
-      }
-    });
-
-    return bookComponents;
   }
 
   renderTradeRequests() {
@@ -68,27 +40,22 @@ class MyBooks extends Component {
       book => book.owner === Meteor.userId() && book.tradeProposed,
     );
 
-    return filteredBooks.map(book => {
-      const traderBooks = books.filter(b => book.proposedById === b.owner);
-      return (
-        <Media key={book._id}>
-          <Media.Left>
-            <img width={64} height={63} src={book.image} alt="BookCover" />
-          </Media.Left>
-          <Media.Body>
-            <Media.Heading>{book.title}</Media.Heading>
-            <p>Trade proposed by {book.proposedByUsername}</p>
-            <Trader book={book} />
-          </Media.Body>
-        </Media>
-      );
-    });
+    return filteredBooks.map(book => (
+      <Media key={book._id}>
+        <Media.Left>
+          <img width={64} height={63} src={book.image} alt="Book Cover" />
+        </Media.Left>
+        <Media.Body>
+          <Media.Heading>{book.title}</Media.Heading>
+          <p>Trade proposed by {book.proposedByUsername}</p>
+          <Trader book={book} />
+        </Media.Body>
+      </Media>
+    ));
   }
 
   renderBooks() {
-    const books = this.props.books;
-    let filteredBooks = books.filter(book => book.owner === Meteor.userId());
-
+    let filteredBooks = this.props.books;
     if (this.state.onlyShowProposed) {
       filteredBooks = filteredBooks.filter(book => book.tradeProposed);
     }
@@ -115,7 +82,7 @@ class MyBooks extends Component {
               {' '}
               <Badge>{this.props.youProposedTradeCount}</Badge>
             </h3>
-            <Row>{this.renderYourRequests()}</Row>
+            <YourRequests />
           </Col>
 
           <Col>
@@ -135,7 +102,7 @@ class MyBooks extends Component {
               className="onlyShowProposed"
               readOnly
               checked={this.state.onlyShowProposed}
-              onClick={this.toggleOnlyShowProposed.bind(this)}
+              onClick={this.toggleOnlyShowProposed}
             >
               Only show books where a trade has been proposed
             </Checkbox>
@@ -146,7 +113,7 @@ class MyBooks extends Component {
             </Row>
           </Col>
           <VisibilitySensor
-            onChange={this.loadMore.bind(this)}
+            onChange={this.loadMore}
             offset={{ direction: 'bottom', value: -300 }}
             active={this.props.canLoadMore}
           />

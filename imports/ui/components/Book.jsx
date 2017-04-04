@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
-import './book.css';
 import {
   Thumbnail,
   Button,
@@ -10,24 +9,31 @@ import {
   OverlayTrigger,
 } from 'react-bootstrap';
 
-import { Books } from '../../api/books.js';
+import './book.css';
 
 const defaultImage = '/image/book.png';
 
 export default class Book extends Component {
-  toggleTradeProposed() {
+  constructor(props) {
+    super(props);
+
+    this.deleteThisBook = this._deleteThisBook.bind(this);
+    this.toggleTradeProposed = this._toggleTradeProposed.bind(this);
+  }
+
+  _toggleTradeProposed() {
     Meteor.call('books.toggleTradeProposed', this.props.book);
   }
 
-  deleteThisBook() {
+  _deleteThisBook() {
     Meteor.call('books.remove', this.props.book);
   }
 
   hideTradeCheckbox() {
-    if (this.props.book.owner == Meteor.userId()) return true;
+    if (this.props.book.owner === Meteor.userId()) return true;
     if (
       this.props.book.tradeProposed &&
-      this.props.book.proposedById != Meteor.userId()
+      this.props.book.proposedById !== Meteor.userId()
     ) {
       return true;
     }
@@ -35,7 +41,9 @@ export default class Book extends Component {
   }
 
   render() {
-    const bookClassName = this.props.book.tradeProposed ? 'tradeProposed' : '';
+    const bookClassName = this.props.book.tradeProposed
+      ? 'tradeProposed book'
+      : 'book';
     const { book } = this.props;
     const canDelete = book.owner === Meteor.userId();
     const overlay = (
@@ -48,7 +56,7 @@ export default class Book extends Component {
       <Thumbnail
         src={book.image || defaultImage}
         alt="cover picture"
-        className={bookClassName + ' book'}
+        className={bookClassName}
       >
 
         <h4 className={bookClassName}>
@@ -68,18 +76,18 @@ export default class Book extends Component {
               bsStyle="danger"
               bsSize="xsmall"
               className="delete"
-              onClick={this.deleteThisBook.bind(this)}
+              onClick={this.deleteThisBook}
             >
               <Glyphicon glyph="remove" />
             </Button>}
         </h4>
 
-        {this.props.page != 'MyBooks'
+        {this.props.page !== 'MyBooks'
           ? <h4 hidden={this.hideTradeCheckbox()}>
               <Checkbox
                 readOnly
                 checked={book.tradeProposed}
-                onClick={this.toggleTradeProposed.bind(this)}
+                onClick={this.toggleTradeProposed}
                 inline
               >
                 Request trade

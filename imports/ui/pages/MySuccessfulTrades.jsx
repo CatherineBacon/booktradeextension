@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
@@ -12,7 +11,7 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { SuccessfulTrades } from '../../api/successfulTrades.js';
+import { SuccessfulTrades } from '../../api/successfulTrades';
 
 class MySuccessfulTrades extends Component {
   render() {
@@ -26,7 +25,7 @@ class MySuccessfulTrades extends Component {
           <PageHeader>My Successful Trades</PageHeader>
         </Col>
         <Col>
-          {trades.length == 0 &&
+          {trades.length === 0 &&
             <p>
               You have no trades! Why not
               {' '}
