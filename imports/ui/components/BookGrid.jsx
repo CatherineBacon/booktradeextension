@@ -7,9 +7,7 @@ export default class BookGrid extends Component {
   render() {
     return (
       <Masonry>
-        {this.props.books.map(book => (
-          <Book key={book._id} book={book} page={this.props.page} />
-        ))}
+        {this.props.books.map(book => <Book key={book._id} book={book} />)}
       </Masonry>
     );
   }

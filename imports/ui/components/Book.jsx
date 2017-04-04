@@ -59,8 +59,7 @@ export default class Book extends Component {
         className={bookClassName}
       >
 
-        <h4 className={bookClassName}>
-
+        <h4>
           <OverlayTrigger trigger={['hover', 'focus']} overlay={overlay}>
             <span>
               <strong>{book.title}</strong>
@@ -82,18 +81,17 @@ export default class Book extends Component {
             </Button>}
         </h4>
 
-        {this.props.page !== 'MyBooks'
-          ? <h4 hidden={this.hideTradeCheckbox()}>
-              <Checkbox
-                readOnly
-                checked={book.tradeProposed}
-                onClick={this.toggleTradeProposed}
-                inline
-              >
-                Request trade
-              </Checkbox>
-            </h4>
-          : null}
+        <h4 hidden={this.hideTradeCheckbox()}>
+          <Checkbox
+            readOnly
+            checked={book.tradeProposed}
+            onClick={this.toggleTradeProposed}
+            inline
+          >
+            Request trade
+          </Checkbox>
+        </h4>
+
       </Thumbnail>
     );
   }

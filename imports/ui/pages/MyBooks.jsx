@@ -56,11 +56,14 @@ class MyBooks extends Component {
 
   renderBooks() {
     let filteredBooks = this.props.books;
+    filteredBooks = filteredBooks.filter(
+      book => book.owner === Meteor.userId(),
+    );
     if (this.state.onlyShowProposed) {
       filteredBooks = filteredBooks.filter(book => book.tradeProposed);
     }
 
-    return <BookGrid books={filteredBooks} page="AllBooks" />;
+    return <BookGrid books={filteredBooks} />;
   }
 
   render() {
