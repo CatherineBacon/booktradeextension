@@ -69,8 +69,7 @@ class MyBooks extends Component {
     );
 
     return filteredBooks.map(book => {
-      const traderBooks = books.filter(b => book.proposedById == b.owner);
-
+      const traderBooks = books.filter(b => book.proposedById === b.owner);
       return (
         <Media key={book._id}>
           <Media.Left>
@@ -79,7 +78,7 @@ class MyBooks extends Component {
           <Media.Body>
             <Media.Heading>{book.title}</Media.Heading>
             <p>Trade proposed by {book.proposedByUsername}</p>
-            <Trader book={book} traderBooks={traderBooks} />
+            <Trader book={book} />
           </Media.Body>
         </Media>
       );
