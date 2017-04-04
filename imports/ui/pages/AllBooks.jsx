@@ -21,6 +21,7 @@ class AllBooks extends Component {
     this.toggleHideTradeProposed = this._toggleHideTradeProposed.bind(this);
     this.toggleHideMyBooks = this._toggleHideMyBooks.bind(this);
     this.loadMore = this._loadMore.bind(this);
+    this.handleSearch = this._handleSearch.bind(this);
   }
 
   _toggleHideTradeProposed() {
@@ -37,6 +38,12 @@ class AllBooks extends Component {
 
   _loadMore(isVisible) {
     if (isVisible) this.props.loadMore();
+  }
+
+  _handleSearch(event) {
+    event.preventDefault();
+    const term = event.target.value.trim();
+    this.props.searchBooks(term);
   }
 
   renderBooks() {
@@ -59,6 +66,10 @@ class AllBooks extends Component {
         <Row>
           <Col>
             <PageHeader>All Books</PageHeader>
+          </Col>
+
+          <Col>
+            <input type="text" onChange={this.handleSearch} />
           </Col>
 
           <Col xs={12}>
@@ -117,15 +128,17 @@ AllBooks.propTypes = {
   availableToTradeCount: PropTypes.number.isRequired,
   loadMore: PropTypes.func.isRequired,
   canLoadMore: PropTypes.bool.isRequired,
+  searchBooks: PropTypes.func.isRequired,
 };
 
 const limit = new ReactiveVar(10);
 const bookCount = new ReactiveVar(0);
 const availableToTradeCount = new ReactiveVar(0);
+const searchTerm = new ReactiveVar('');
 
 export default createContainer(
   () => {
-    Meteor.subscribe('books', limit.get());
+    Meteor.subscribe('books', limit.get(), searchTerm.get());
 
     Meteor.call('books.countAll', (error, count) => {
       if (error) return console.log(error);
@@ -133,6 +146,8 @@ export default createContainer(
     });
 
     const canLoadMore = limit.get() < bookCount.get();
+
+    const searchBooks = term => searchTerm.set(term);
 
     Meteor.call('books.availableToTradeCount', (error, count) => {
       if (error) return console.log(error);
@@ -150,6 +165,7 @@ export default createContainer(
       currentUser: Meteor.user(),
       loadMore: () => limit.set(limit.get() + 5),
       canLoadMore,
+      searchBooks,
     };
   },
   AllBooks,

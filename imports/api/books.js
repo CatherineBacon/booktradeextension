@@ -6,9 +6,24 @@ import { _ } from 'lodash';
 export const Books = new Mongo.Collection('books');
 
 if (Meteor.isServer) {
-  Meteor.publish('books', limit => {
+  // needed to make search work
+  Books._ensureIndex({
+    title: 'text',
+    author: 'text',
+  });
+
+  Meteor.publish('books', (limit, searchTerm) => {
     check(limit, Number);
-    return Books.find({}, { sort: { createdAt: -1 }, limit });
+    check(searchTerm, String);
+
+    if (searchTerm === '') {
+      return Books.find({}, { sort: { createdAt: -1 }, limit });
+    }
+
+    return Books.find(
+      { $text: { $search: searchTerm, $caseSensitive: false } },
+      { sort: { createdAt: -1 }, limit },
+    );
   });
 
   Meteor.publish('booksByOwner', (owner, limit) => {
