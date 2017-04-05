@@ -62,7 +62,7 @@ class AllBooks extends Component {
   _handleClear(event) {
     event.preventDefault();
     this.setState({ searchText: '' });
-    this.props.searchBooks('');
+    this.props.clearSearch();
   }
 
   renderBooks() {
@@ -166,6 +166,7 @@ AllBooks.propTypes = {
   loadMore: PropTypes.func.isRequired,
   canLoadMore: PropTypes.bool.isRequired,
   searchBooks: PropTypes.func.isRequired,
+  clearSearch: PropTypes.func.isRequired,
 };
 
 const limit = new ReactiveVar(10);
@@ -185,6 +186,7 @@ export default createContainer(
     const canLoadMore = limit.get() < bookCount.get();
 
     const searchBooks = _.debounce(term => searchTerm.set(term), 1000);
+    const clearSearch = () => searchTerm.set('');
 
     Meteor.call('books.availableToTradeCount', (error, count) => {
       if (error) return console.log(error);
@@ -203,6 +205,7 @@ export default createContainer(
       loadMore: () => limit.set(limit.get() + 5),
       canLoadMore,
       searchBooks,
+      clearSearch,
     };
   },
   AllBooks,
