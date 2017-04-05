@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { _ } from 'lodash';
 import VisibilitySensor from 'react-visibility-sensor';
 import {
   Row,
@@ -183,7 +184,7 @@ export default createContainer(
 
     const canLoadMore = limit.get() < bookCount.get();
 
-    const searchBooks = term => searchTerm.set(term);
+    const searchBooks = _.debounce(term => searchTerm.set(term), 1000);
 
     Meteor.call('books.availableToTradeCount', (error, count) => {
       if (error) return console.log(error);
