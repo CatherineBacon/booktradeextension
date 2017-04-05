@@ -20,7 +20,12 @@ class App extends Component {
       <Router>
         <Grid>
 
-          <Route render={({ history }) => <Menu history={history} />} />
+          <Route
+            render={({ history }) => (
+              <Menu history={history} currentUser={this.props.currentUser} />
+            )}
+          />
+
           <Route exact path="/" render={() => <Home />} />
 
           <Route path="/mysuccessfultrades" component={MySuccessfulTrades} />
@@ -68,6 +73,7 @@ export default createContainer(
           sort: { createdAt: -1 },
         },
       ).fetch(),
+      currentUser: Meteor.user(),
     };
   },
   App,

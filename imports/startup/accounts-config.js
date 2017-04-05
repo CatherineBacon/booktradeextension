@@ -1,5 +1,6 @@
-import { Accounts } from 'meteor/accounts-base';
+import { Accounts } from 'meteor/std:accounts-ui';
 
 Accounts.ui.config({
-	passwordSignupFields: 'USERNAME_AND_EMAIL',
+  passwordSignupFields: 'USERNAME_AND_EMAIL',
+  minimumPasswordLength: 6,
 });

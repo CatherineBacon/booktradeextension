@@ -145,7 +145,7 @@ class AllBooks extends Component {
 
           <Col>
             <Row>
-              {this.renderBooks()}
+              {this.props.searching ? <p>loading...</p> : this.renderBooks()}
             </Row>
           </Col>
           <VisibilitySensor
@@ -167,6 +167,7 @@ AllBooks.propTypes = {
   canLoadMore: PropTypes.bool.isRequired,
   searchBooks: PropTypes.func.isRequired,
   clearSearch: PropTypes.func.isRequired,
+  searching: PropTypes.bool,
 };
 
 const limit = new ReactiveVar(10);
@@ -176,7 +177,7 @@ const searchTerm = new ReactiveVar('');
 
 export default createContainer(
   () => {
-    Meteor.subscribe('books', limit.get(), searchTerm.get());
+    const sub = Meteor.subscribe('books', limit.get(), searchTerm.get());
 
     Meteor.call('books.countAll', (error, count) => {
       if (error) return console.log(error);
@@ -206,6 +207,7 @@ export default createContainer(
       canLoadMore,
       searchBooks,
       clearSearch,
+      searching: !sub.ready(),
     };
   },
   AllBooks,
