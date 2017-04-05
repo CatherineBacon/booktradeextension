@@ -10,8 +10,6 @@ import {
   Checkbox,
   Badge,
   FormControl,
-  Form,
-  ControlLabel,
   Button,
   InputGroup,
 } from 'react-bootstrap';
