@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Nav, NavItem, Navbar, Row, Col, Modal, Button } from 'react-bootstrap';
 
-import AccountsUIWrapper from './AccountsUIWrapper.jsx';
+import CustomLogin from './CustomLogin.jsx';
 
 export default class Menu extends Component {
   constructor(props) {
@@ -40,7 +40,6 @@ export default class Menu extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <Row>
         <Col>
@@ -69,7 +68,7 @@ export default class Menu extends Component {
               {this.props.currentUser ? 'Log out' : 'Log in'}
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body><AccountsUIWrapper /></Modal.Body>
+          <Modal.Body><CustomLogin /></Modal.Body>
           <Modal.Footer>
             <Button onClick={this.closeModal}>Close</Button>
           </Modal.Footer>
@@ -81,5 +80,5 @@ export default class Menu extends Component {
 
 Menu.propTypes = {
   history: PropTypes.object.isRequired,
-  currentUser: PropTypes.object.isRequired,
+  currentUser: PropTypes.object,
 };
