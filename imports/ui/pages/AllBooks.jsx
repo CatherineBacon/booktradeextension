@@ -3,7 +3,18 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { ReactiveVar } from 'meteor/reactive-var';
 import VisibilitySensor from 'react-visibility-sensor';
-import { Row, Col, PageHeader, Checkbox, Badge } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  PageHeader,
+  Checkbox,
+  Badge,
+  FormControl,
+  Form,
+  ControlLabel,
+  Button,
+  InputGroup,
+} from 'react-bootstrap';
 
 import { Books } from '../../api/books';
 
@@ -16,12 +27,14 @@ class AllBooks extends Component {
     this.state = {
       hideTradeProposed: false,
       hideMyBooks: true,
+      searchText: '',
     };
 
     this.toggleHideTradeProposed = this._toggleHideTradeProposed.bind(this);
     this.toggleHideMyBooks = this._toggleHideMyBooks.bind(this);
     this.loadMore = this._loadMore.bind(this);
     this.handleSearch = this._handleSearch.bind(this);
+    this.handleClear = this._handleClear.bind(this);
   }
 
   _toggleHideTradeProposed() {
@@ -43,7 +56,14 @@ class AllBooks extends Component {
   _handleSearch(event) {
     event.preventDefault();
     const term = event.target.value.trim();
+    this.setState({ searchText: event.target.value });
     this.props.searchBooks(term);
+  }
+
+  _handleClear(event) {
+    event.preventDefault();
+    this.setState({ searchText: '' });
+    this.props.searchBooks('');
   }
 
   renderBooks() {
@@ -65,19 +85,37 @@ class AllBooks extends Component {
       return (
         <Row>
           <Col>
-            <PageHeader>All Books</PageHeader>
+            <PageHeader>
+              All Books <small className="pull-right">
+                Books available to trade:
+                {' '}
+                <Badge>{this.props.availableToTradeCount}</Badge>
+              </small>
+            </PageHeader>
           </Col>
 
           <Col>
-            <input type="text" onChange={this.handleSearch} />
+            <InputGroup>
+              <InputGroup.Addon>Search All Books:</InputGroup.Addon> {' '}
+              <FormControl
+                type="text"
+                onChange={this.handleSearch}
+                value={this.state.searchText}
+              />
+              <span className="input-group-btn">
+                <Button
+                  className="btn btn-default"
+                  bsStyle="primary"
+                  onClick={this.handleClear}
+                >
+                  Clear Search
+                </Button>
+              </span>
+            </InputGroup>
           </Col>
 
           <Col xs={12}>
-            <span className="pull-right">
-              Books available to trade:
-              {' '}
-              <Badge>{this.props.availableToTradeCount}</Badge>
-            </span>
+            <span className="pull-right" />
           </Col>
           <Col>
             <Checkbox
