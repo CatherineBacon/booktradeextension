@@ -175,6 +175,11 @@ AllBooks.propTypes = {
   currentUser: PropTypes.object,
 };
 
+AllBooks.defaultProps = {
+  searching: false,
+  currentUser: null,
+};
+
 const limit = new ReactiveVar(10);
 const bookCount = new ReactiveVar(0);
 const availableToTradeCount = new ReactiveVar(0);
