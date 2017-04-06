@@ -142,7 +142,7 @@ MyBooks.propTypes = {
   canLoadMore: PropTypes.bool.isRequired,
 };
 
-const limit = new ReactiveVar(2);
+const limit = new ReactiveVar(10);
 const bookCount = new ReactiveVar(0);
 const yourBooksCount = new ReactiveVar(0);
 const tradeProposedCount = new ReactiveVar(0);

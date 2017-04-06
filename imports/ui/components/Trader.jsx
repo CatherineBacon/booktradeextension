@@ -56,7 +56,7 @@ class Trader extends Component {
     }
     return (
       <Form inline onSubmit={this.handleSubmit.bind(this)}>
-        <FormGroup>
+        <FormGroup bsSize="small">
           <ControlLabel>Select a book to exchange: </ControlLabel>
           {' '}
           <FormControl
@@ -69,8 +69,8 @@ class Trader extends Component {
             {this.renderTraderBooks()}
           </FormControl>
         </FormGroup>
-        <Button type="submit">Go!</Button>
-
+        {' '}
+        <Button type="submit" bsSize="small">Go!</Button>
       </Form>
     );
   }
