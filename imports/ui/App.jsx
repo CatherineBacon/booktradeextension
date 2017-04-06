@@ -4,8 +4,6 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Grid, Row, Col, Panel } from 'react-bootstrap';
 
-import { Books } from '../api/books';
-
 import MyBooks from './pages/MyBooks.jsx';
 import AllBooks from './pages/AllBooks.jsx';
 import Profile from './pages/Profile.jsx';
@@ -58,21 +56,12 @@ class App extends Component {
 }
 
 App.propTypes = {
-  books: PropTypes.array.isRequired,
   currentUser: PropTypes.object,
 };
 
 export default createContainer(
   () => {
-    Meteor.subscribe('books');
-
     return {
-      books: Books.find(
-        {},
-        {
-          sort: { createdAt: -1 },
-        },
-      ).fetch(),
       currentUser: Meteor.user(),
     };
   },
