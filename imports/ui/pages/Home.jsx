@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Panel, Col, Jumbotron } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
   render() {
@@ -28,6 +29,19 @@ export default class Home extends Component {
             <Col sm={6}>
               <Panel>
                 Manage trades with users from all over the world
+              </Panel>
+            </Col>
+            <Col sm={12}>
+              <Panel>
+                Check out
+                {' '}
+                <Link to="/allbooks">all our books</Link>
+                {' '}
+                to see what's available and
+                {' '}
+                <Link to="/profile">log in</Link>
+                {' '}
+                to start trading
               </Panel>
             </Col>
           </Row>

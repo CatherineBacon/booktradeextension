@@ -12,7 +12,8 @@ import {
   Button,
 } from 'react-bootstrap';
 
-import UserInfo from '../../api/users.js';
+import UserInfo from '../../api/users';
+import CustomLogin from '../components/CustomLogin.jsx';
 
 class Profile extends Component {
   constructor(props) {
@@ -50,7 +51,14 @@ class Profile extends Component {
   }
 
   render() {
-    if (!this.props.currentUser) return <PageHeader>Please login</PageHeader>;
+    if (!this.props.currentUser) {
+      return (
+        <Row>
+          <PageHeader>Please login</PageHeader>
+          <CustomLogin />
+        </Row>
+      );
+    }
 
     const { fullName, city, country } = this.props.currentUser;
 
@@ -118,6 +126,10 @@ class Profile extends Component {
     );
   }
 }
+
+Profile.propTypes = {
+  currentUser: PropTypes.object,
+};
 
 export default createContainer(
   () => {

@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { _ } from 'lodash';
 import VisibilitySensor from 'react-visibility-sensor';
+import { Link } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -18,6 +19,7 @@ import {
 import { Books } from '../../api/books';
 
 import BookGrid from '../components/BookGrid.jsx';
+import CustomLogin from '../components/CustomLogin.jsx';
 
 class AllBooks extends Component {
   constructor(props) {
@@ -80,83 +82,85 @@ class AllBooks extends Component {
   }
 
   render() {
-    if (this.props.currentUser) {
-      return (
-        <Row>
-          <Col>
-            <PageHeader>
-              All Books <small className="pull-right">
-                Books available to trade:
-                {' '}
-                <Badge>{this.props.availableToTradeCount}</Badge>
-              </small>
-            </PageHeader>
-          </Col>
+    return (
+      <Row>
+        <Col>
+          <PageHeader>
+            All Books <small className="pull-right">
+              Books available to trade:
+              {' '}
+              <Badge>{this.props.availableToTradeCount}</Badge>
+            </small>
+          </PageHeader>
+        </Col>
 
-          <Col>
-            <InputGroup>
-              <InputGroup.Addon>Search All Books:</InputGroup.Addon> {' '}
-              <FormControl
-                type="text"
-                onChange={this.handleSearch}
-                value={this.state.searchText}
-              />
-              <span className="input-group-btn">
-                <Button
-                  className="btn btn-default"
-                  bsStyle="primary"
-                  onClick={this.handleClear}
-                >
-                  Clear Search
-                </Button>
-              </span>
-            </InputGroup>
-          </Col>
+        {!this.props.currentUser &&
+          <h2 className="login-reminder text-warning">
+            Remember, you need to <Link to="/profile">log in</Link> to trade!
+          </h2>}
 
-          <Col xs={12}>
-            <span className="pull-right" />
-          </Col>
-          <Col>
-            <Checkbox
-              className="hide-tradeProposed"
-              type="checkbox"
-              readOnly
-              checked={this.state.hideTradeProposed}
-              onClick={this.toggleHideTradeProposed}
-            >
-              Hide books where trade has been proposed
-            </Checkbox>
-          </Col>
+        <Col>
+          <InputGroup>
+            <InputGroup.Addon>Search All Books:</InputGroup.Addon> {' '}
+            <FormControl
+              type="text"
+              onChange={this.handleSearch}
+              value={this.state.searchText}
+            />
+            <span className="input-group-btn">
+              <Button
+                className="btn btn-default"
+                bsStyle="primary"
+                onClick={this.handleClear}
+              >
+                Clear Search
+              </Button>
+            </span>
+          </InputGroup>
+        </Col>
 
-          <Col>
-            <Checkbox
-              className="hide-myBooks"
-              readOnly
-              checked={this.state.hideMyBooks}
-              onClick={this.toggleHideMyBooks}
-            >
-              Hide my own books
-            </Checkbox>
-          </Col>
+        <Col xs={12}>
+          <span className="pull-right" />
+        </Col>
+        <Col>
+          <Checkbox
+            className="hide-tradeProposed"
+            type="checkbox"
+            readOnly
+            checked={this.state.hideTradeProposed}
+            onClick={this.toggleHideTradeProposed}
+          >
+            Hide books where trade has been proposed
+          </Checkbox>
+        </Col>
 
-          <Col>
-            <h3>Check the box to propose a trade</h3>
-          </Col>
+        <Col>
+          <Checkbox
+            className="hide-myBooks"
+            readOnly
+            checked={this.state.hideMyBooks}
+            onClick={this.toggleHideMyBooks}
+          >
+            Hide my own books
+          </Checkbox>
+        </Col>
 
-          <Col>
-            <Row>
-              {this.props.searching ? <p>loading...</p> : this.renderBooks()}
-            </Row>
-          </Col>
-          <VisibilitySensor
-            onChange={this.loadMore}
-            offset={{ direction: 'bottom', value: -300 }}
-            active={this.props.canLoadMore}
-          />
-        </Row>
-      );
-    }
-    return <PageHeader>Please login</PageHeader>;
+        <Col>
+          <h3>Check the box to propose a trade</h3>
+        </Col>
+
+        <Col>
+          <Row>
+            {this.props.searching ? <p>loading...</p> : this.renderBooks()}
+          </Row>
+        </Col>
+        <VisibilitySensor
+          onChange={this.loadMore}
+          offset={{ direction: 'bottom', value: -300 }}
+          active={this.props.canLoadMore}
+        />
+      </Row>
+    );
   }
 }
 
@@ -168,6 +172,7 @@ AllBooks.propTypes = {
   searchBooks: PropTypes.func.isRequired,
   clearSearch: PropTypes.func.isRequired,
   searching: PropTypes.bool,
+  currentUser: PropTypes.object,
 };
 
 const limit = new ReactiveVar(10);

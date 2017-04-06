@@ -38,7 +38,7 @@ class App extends Component {
 
           <Route path="/about" component={About} />
 
-          <Row>
+          <Row className="footer">
             <Col>
               <Panel>
                 Written and coded by

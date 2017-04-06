@@ -12,10 +12,18 @@ import {
 import { Link } from 'react-router-dom';
 
 import { SuccessfulTrades } from '../../api/successfulTrades';
+import CustomLogin from '../components/CustomLogin.jsx';
 
 class MySuccessfulTrades extends Component {
   render() {
-    if (!Meteor.userId()) return <PageHeader>Please login</PageHeader>;
+    if (!Meteor.userId()) {
+      return (
+        <Row>
+          <PageHeader>Please login</PageHeader>
+          <CustomLogin />
+        </Row>
+      );
+    }
 
     const trades = this.props.successfulTrades;
 

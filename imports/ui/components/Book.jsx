@@ -30,6 +30,7 @@ export default class Book extends Component {
   }
 
   hideTradeCheckbox() {
+    if (!Meteor.userId()) return true;
     if (this.props.book.owner === Meteor.userId()) return true;
     if (
       this.props.book.tradeProposed &&

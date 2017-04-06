@@ -11,6 +11,7 @@ import BookGrid from '../components/BookGrid.jsx';
 import Trader from '../components/Trader.jsx';
 import AddBook from '../components/AddBook.jsx';
 import YourRequests from '../components/YourRequests.jsx';
+import CustomLogin from '../components/CustomLogin.jsx';
 
 class MyBooks extends Component {
   constructor(props) {
@@ -123,7 +124,12 @@ class MyBooks extends Component {
         </Row>
       );
     }
-    return <PageHeader>Please login</PageHeader>;
+    return (
+      <Row>
+        <PageHeader>Please login</PageHeader>
+        <CustomLogin />
+      </Row>
+    );
   }
 }
 
