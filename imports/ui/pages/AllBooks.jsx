@@ -19,7 +19,6 @@ import {
 import { Books } from '../../api/books';
 
 import BookGrid from '../components/BookGrid.jsx';
-import CustomLogin from '../components/CustomLogin.jsx';
 
 class AllBooks extends Component {
   constructor(props) {
@@ -78,7 +77,7 @@ class AllBooks extends Component {
       );
     }
 
-    return <BookGrid books={filteredBooks} page="AllBooks" />;
+    return <BookGrid books={filteredBooks} />;
   }
 
   render() {
@@ -151,7 +150,8 @@ class AllBooks extends Component {
 
         <Col>
           <Row>
-            {this.props.searching ? <p>loading...</p> : this.renderBooks()}
+            {this.renderBooks()}
+            {this.props.searching && <p>loading...</p>}
           </Row>
         </Col>
         <VisibilitySensor
