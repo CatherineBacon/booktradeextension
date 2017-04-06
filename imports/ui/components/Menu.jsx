@@ -15,6 +15,7 @@ export default class Menu extends Component {
     this.handleSelect = this._handleSelect.bind(this);
     this.openModal = this._openModal.bind(this);
     this.closeModal = this._closeModal.bind(this);
+    this.handleLogInOut = this._handleLogInOut.bind(this);
   }
 
   _handleSelect(eventKey, event) {
@@ -29,6 +30,11 @@ export default class Menu extends Component {
     ];
 
     this.props.history.push(routes[eventKey]);
+  }
+
+  _handleLogInOut() {
+    if (this.props.currentUser) return Meteor.logout();
+    this.openModal();
   }
 
   _openModal() {
@@ -55,9 +61,10 @@ export default class Menu extends Component {
               </NavItem>
               <NavItem eventKey={3} href="#">All Books</NavItem>
               <NavItem eventKey={4} href="#">Profile</NavItem>
-              <NavItem onClick={this.openModal}>
+              <NavItem onClick={this.handleLogInOut}>
                 {this.props.currentUser ? 'Log out' : 'Log in'}
               </NavItem>
+
             </Nav>
           </Navbar>
         </Col>
