@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import { Email } from 'meteor/email';
 import {
   FormGroup,
   FormControl,
@@ -9,9 +10,7 @@ import {
   Form,
 } from 'react-bootstrap';
 
-import { Books } from '../../api/books.js';
-
-import Book from './Book.jsx';
+import { Books } from '../../api/books';
 
 class Trader extends Component {
   constructor(props) {

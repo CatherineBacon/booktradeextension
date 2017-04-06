@@ -12,6 +12,7 @@ import {
 import { Link } from 'react-router-dom';
 
 import { SuccessfulTrades } from '../../api/successfulTrades';
+
 import CustomLogin from '../components/CustomLogin.jsx';
 
 class MySuccessfulTrades extends Component {

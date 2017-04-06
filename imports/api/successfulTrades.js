@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { Email } from 'meteor/email';
 
 export const SuccessfulTrades = new Mongo.Collection('successfulTrades');
 
@@ -46,5 +47,13 @@ Meteor.methods({
       traderBookTitle: firstBook.title,
       createdAt: new Date(),
     });
+
+    Meteor.call(
+      'sendTradeAgreedEmail',
+      firstBook.owner,
+      firstBook.title,
+      secondBook.owner,
+      secondBook.title,
+    );
   },
 });
