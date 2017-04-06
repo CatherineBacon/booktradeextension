@@ -177,6 +177,10 @@ Meteor.methods({
     check(book.tradeProposed, Boolean);
     check(book.owner, String);
 
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+
     if (!book.tradeProposed && Meteor.userId() === book.owner) {
       throw new Meteor.Error('not-authorized');
     }
