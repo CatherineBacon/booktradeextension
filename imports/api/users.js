@@ -55,6 +55,9 @@ Meteor.methods({
     const userTwo = Meteor.users.findOne({ _id: userTwoId });
 
     if (Meteor.isServer) {
+      console.log('userOne: ', userOne.emails[0].address);
+      console.log('userTwo: ', userTwo.emails[0].address);
+
       const textForOne = `Traded ${userOneTitle} for ${userTwoTitle} with ` +
         `${userTwo.fullName} (${userTwo.emails[0].address})\n` +
         `Send ${userOneTitle} to ${userTwo.fullName} at ` +
@@ -65,7 +68,7 @@ Meteor.methods({
         `${userOne.street}, ${userOne.city}, ${userOne.country}, ${userOne.postcode}`;
 
       Email.send({
-        to: userOne.emails[0],
+        to: userOne.emails[0].address,
         from: 'dummyFrom@mail.com',
         subject: 'Trade agreed!',
         text: textForOne,
