@@ -7,10 +7,10 @@ export const SuccessfulTrades = new Mongo.Collection('successfulTrades');
 
 if (Meteor.isServer) {
   // This code only runs on the server
-  Meteor.publish('successfulTrades', function tradesPublication() {
-    console.log(this.userId);
+  Meteor.publish('successfulTrades', function tradesPublication(owner) {
+    check(owner, String);
     return SuccessfulTrades.find(
-      {},
+      { owner },
       {
         sort: { createdAt: -1 },
         limit: 100,

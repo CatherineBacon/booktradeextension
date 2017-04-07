@@ -72,7 +72,7 @@ MySuccessfulTrades.propTypes = {
 
 export default createContainer(
   () => {
-    Meteor.subscribe('successfulTrades');
+    Meteor.subscribe('successfulTrades', Meteor.userId());
 
     return {
       successfulTrades: SuccessfulTrades.find(
