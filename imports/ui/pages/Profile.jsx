@@ -122,6 +122,9 @@ class Profile extends Component {
             </FormGroup>
           </Form>
         </Col>
+        <Col xs={12}>
+          <CustomLogin />
+        </Col>
       </Row>
     );
   }
