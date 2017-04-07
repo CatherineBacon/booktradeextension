@@ -8,14 +8,8 @@ export default class Menu extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      showModal: false,
-    };
-
     this.handleSelect = this._handleSelect.bind(this);
-    this.openModal = this._openModal.bind(this);
-    this.closeModal = this._closeModal.bind(this);
-    this.handleLogInOut = this._handleLogInOut.bind(this);
+    this.handleLogOut = this._handleLogOut.bind(this);
   }
 
   _handleSelect(eventKey, event) {
@@ -23,29 +17,45 @@ export default class Menu extends Component {
 
     const routes = [
       '/',
+      '/allbooks',
       '/mybooks',
       '/mysuccessfultrades',
-      '/allbooks',
       '/profile',
     ];
 
     this.props.history.push(routes[eventKey]);
   }
 
-  _handleLogInOut() {
+  _handleLogOut() {
     if (this.props.currentUser) return Meteor.logout();
-    this.openModal();
-  }
-
-  _openModal() {
-    this.setState({ showModal: true });
-  }
-
-  _closeModal() {
-    this.setState({ showModal: false });
   }
 
   render() {
+    if (this.props.currentUser) {
+      return (
+        <Row>
+          <Col>
+            <Navbar inverse>
+              <Navbar.Header>
+                <Navbar.Brand>Book Exchange!</Navbar.Brand>
+              </Navbar.Header>
+              <Nav onSelect={this.handleSelect} pullRight>
+                <NavItem eventKey={0} href="#">Home</NavItem>
+                <NavItem eventKey={1} href="#">All Books</NavItem>
+                <NavItem eventKey={2} href="#">My Books</NavItem>
+                <NavItem eventKey={3} href="#">
+                  My Successful Trades
+                </NavItem>
+                <NavItem eventKey={4} href="#">Profile</NavItem>
+                <NavItem onClick={this.handleLogOut}>
+                  Log out
+                </NavItem>
+              </Nav>
+            </Navbar>
+          </Col>
+        </Row>
+      );
+    }
     return (
       <Row>
         <Col>
@@ -55,31 +65,11 @@ export default class Menu extends Component {
             </Navbar.Header>
             <Nav onSelect={this.handleSelect} pullRight>
               <NavItem eventKey={0} href="#">Home</NavItem>
-              <NavItem eventKey={1} href="#">My Books</NavItem>
-              <NavItem eventKey={2} href="#">
-                My Successful Trades
-              </NavItem>
-              <NavItem eventKey={3} href="#">All Books</NavItem>
-              <NavItem eventKey={4} href="#">Profile</NavItem>
-              <NavItem onClick={this.handleLogInOut}>
-                {this.props.currentUser ? 'Log out' : 'Log in'}
-              </NavItem>
-
+              <NavItem eventKey={1} href="#">All Books</NavItem>
+              <NavItem eventKey={4} href="#">Log in</NavItem>
             </Nav>
           </Navbar>
         </Col>
-
-        <Modal show={this.state.showModal} onHide={this.closeModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              {this.props.currentUser ? 'Log out' : 'Log in'}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body><CustomLogin /></Modal.Body>
-          <Modal.Footer>
-            <Button onClick={this.closeModal}>Close</Button>
-          </Modal.Footer>
-        </Modal>
       </Row>
     );
   }
