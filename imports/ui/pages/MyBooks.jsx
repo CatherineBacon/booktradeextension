@@ -64,6 +64,10 @@ class MyBooks extends Component {
       filteredBooks = filteredBooks.filter(book => book.tradeProposed);
     }
 
+    if (filteredBooks.length === 0) {
+      return <p><em>no books to display</em></p>;
+    }
+
     return <BookGrid books={filteredBooks} />;
   }
 
@@ -112,9 +116,7 @@ class MyBooks extends Component {
             </Checkbox>
           </Col>
           <Col>
-            <Row>
-              {this.renderBooks()}
-            </Row>
+            {this.renderBooks()}
           </Col>
           <VisibilitySensor
             onChange={this.loadMore}

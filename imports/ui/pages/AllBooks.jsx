@@ -77,6 +77,10 @@ class AllBooks extends Component {
       );
     }
 
+    if (filteredBooks.length === 0) {
+      return <p><em>no books to display</em></p>;
+    }
+
     return <BookGrid books={filteredBooks} />;
   }
 
@@ -149,10 +153,8 @@ class AllBooks extends Component {
         </Col>
 
         <Col>
-          <Row>
-            {this.renderBooks()}
-            {this.props.searching && <p>loading...</p>}
-          </Row>
+          {this.renderBooks()}
+          {this.props.searching && <p>loading...</p>}
         </Col>
         <VisibilitySensor
           onChange={this.loadMore}
