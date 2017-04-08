@@ -109,6 +109,7 @@ class AllBooks extends Component {
               type="text"
               onChange={this.handleSearch}
               value={this.state.searchText}
+              placeholder="author or title"
             />
             <span className="input-group-btn">
               <Button

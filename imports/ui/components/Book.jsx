@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
+import { _ } from 'lodash';
 import {
   Thumbnail,
   Button,
@@ -68,7 +69,12 @@ export default class Book extends Component {
               by
               {' '}
               {book.author || <em>unknown</em>}
+              <br />
+              <small>
+                <em>{_.truncate(book.description, { length: 100 })}</em>
+              </small>
             </span>
+
           </OverlayTrigger>
           {' '}
           {canDelete &&
