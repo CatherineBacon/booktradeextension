@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
+import { _ } from 'lodash';
 
 if (Meteor.isServer) {
   Meteor.publish('Meteor.users.additionalinfo', function() {
@@ -37,11 +38,11 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    if (fullName.length === 0) fullName = Meteor.user().fullName;
-    if (street.length === 0) street = Meteor.user().street;
-    if (city.length === 0) city = Meteor.user().city;
-    if (country.length === 0) country = Meteor.user().country;
-    if (postcode.length === 0) postcode = Meteor.user().postcode;
+    if (!fullName) fullName = _.get(Meteor.user(), 'fullName', '');
+    if (!street) street = _.get(Meteor.user(), 'street', '');
+    if (!city) city = _.get(Meteor.user(), 'city', '');
+    if (!country) country = _.get(Meteor.user(), 'country', '');
+    if (!postcode) postcode = _.get(Meteor.user(), 'postcode', '');
 
     Meteor.users.update(
       { _id: Meteor.user()._id },

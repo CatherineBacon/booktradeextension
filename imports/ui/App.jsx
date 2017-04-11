@@ -41,7 +41,7 @@ class App extends Component {
               <Panel>
                 Written and coded by
                 {' '}
-                <a href="https://github.com/CatherineBacon/booktradingclub">
+                <a href="https://github.com/CatherineBacon/booktradeextension">
                   Catherine Bacon
                 </a>
                 <Link to="/about" className="pull-right">About</Link>
