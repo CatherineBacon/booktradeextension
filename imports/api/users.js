@@ -121,4 +121,26 @@ Meteor.methods({
       });
     }
   },
+
+  sendTradeDeclinedEmail(proposedById, title, ownerId) {
+    check(proposedById, String);
+    check(title, String);
+    check(ownerId, String);
+
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    if (Meteor.isServer) {
+      const to = Meteor.users.findOne({ _id: proposedById }).emails[0].address;
+      const declinedBy = Meteor.users.findOne({ _id: ownerId }).username;
+
+      Email.send({
+        to,
+        from: 'dummyFrom@mail.com',
+        subject: 'Trade declined!',
+        text: `${declinedBy} has declined your trade request for ${title}. Sorry!`,
+      });
+    }
+  },
 });

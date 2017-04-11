@@ -116,6 +116,13 @@ Meteor.methods({
     check(book, Object);
     check(book._id, String);
 
+    Meteor.call(
+      'sendTradeDeclinedEmail',
+      book.proposedById,
+      book.title,
+      book.owner,
+    );
+
     Books.update(book._id, {
       $set: {
         tradeProposed: false,
