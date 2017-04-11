@@ -96,7 +96,7 @@ Meteor.methods({
 
     const author = book.authors ? book.authors.join(', ') : null;
     const thumbnail = book.thumbnail || null;
-    const description = _.truncate(book.description, { length: 500 }) || null;
+    const description = _.truncate(book.description, { length: 750 }) || null;
 
     Books.insert({
       title: book.title,

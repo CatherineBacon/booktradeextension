@@ -21,8 +21,10 @@ class Profile extends Component {
 
     this.state = {
       fullName: '',
+      street: '',
       city: '',
       country: '',
+      postcode: '',
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -39,14 +41,23 @@ class Profile extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const { fullName, city, country } = this.state;
+    const { fullName, street, city, country, postcode } = this.state;
 
-    Meteor.call('Meteor.users.additionalinfo.update', fullName, city, country);
+    Meteor.call(
+      'Meteor.users.additionalinfo.update',
+      fullName,
+      street,
+      city,
+      country,
+      postcode,
+    );
 
     this.setState({
       fullName: '',
+      street: '',
       city: '',
       country: '',
+      postcode: '',
     });
   }
 
@@ -60,7 +71,13 @@ class Profile extends Component {
       );
     }
 
-    const { fullName, city, country } = this.props.currentUser;
+    const {
+      fullName,
+      city,
+      country,
+      street,
+      postcode,
+    } = this.props.currentUser;
 
     return (
       <Row>
@@ -72,8 +89,10 @@ class Profile extends Component {
           <p><b>Username</b>: {Meteor.user().username}</p>
           <p><b>Email address</b>: {Meteor.user().emails[0].address}</p>
           {fullName && <p><b>Full name</b>: {fullName}</p>}
+          {street && <p><b>House/Street</b>: {street}</p>}
           {city && <p><b>Town/City</b>: {city}</p>}
           {country && <p><b>Country</b>: {country}</p>}
+          {postcode && <p><b>Postcode</b>: {postcode}</p>}
 
         </Col>
         <Col xs={6}>
@@ -88,6 +107,18 @@ class Profile extends Component {
                   name="fullName"
                   onChange={this.handleInputChange}
                   value={this.state.fullName}
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup>
+              <Col xs={2}>House/Street:</Col>
+              {' '}
+              <Col xs={10}>
+                <FormControl
+                  type="text"
+                  name="street"
+                  onChange={this.handleInputChange}
+                  value={this.state.street}
                 />
               </Col>
             </FormGroup>
@@ -112,6 +143,18 @@ class Profile extends Component {
                   name="country"
                   onChange={this.handleInputChange}
                   value={this.state.country}
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup>
+              <Col xs={2}>Postcode:</Col>
+              {' '}
+              <Col xs={10}>
+                <FormControl
+                  type="text"
+                  name="postcode"
+                  onChange={this.handleInputChange}
+                  value={this.state.postcode}
                 />
               </Col>
             </FormGroup>

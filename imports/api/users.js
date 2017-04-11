@@ -20,24 +20,38 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  'Meteor.users.additionalinfo.update'(fullName, city, country) {
+  'Meteor.users.additionalinfo.update'(
+    fullName,
+    street,
+    city,
+    country,
+    postcode,
+  ) {
     check(fullName, String);
+    check(street, String);
     check(city, String);
     check(country, String);
+    check(postcode, String);
 
     if (!Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
+
+    if (fullName.length === 0) fullName = Meteor.user().fullName;
+    if (street.length === 0) street = Meteor.user().street;
+    if (city.length === 0) city = Meteor.user().street;
+    if (country.length === 0) country = Meteor.user().coutnry;
+    if (postcode.length === 0) postcode = Meteor.user().postcode;
 
     Meteor.users.update(
       { _id: Meteor.user()._id },
       {
         $set: {
           fullName,
-          street: 'house number street name',
+          street,
           city,
           country,
-          postcode: 'TE5 4IT',
+          postcode: postcode.toUpperCase(),
         },
       },
     );
