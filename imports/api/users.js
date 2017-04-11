@@ -39,8 +39,8 @@ Meteor.methods({
 
     if (fullName.length === 0) fullName = Meteor.user().fullName;
     if (street.length === 0) street = Meteor.user().street;
-    if (city.length === 0) city = Meteor.user().street;
-    if (country.length === 0) country = Meteor.user().coutnry;
+    if (city.length === 0) city = Meteor.user().city;
+    if (country.length === 0) country = Meteor.user().country;
     if (postcode.length === 0) postcode = Meteor.user().postcode;
 
     Meteor.users.update(

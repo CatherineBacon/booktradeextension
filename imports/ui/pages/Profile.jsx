@@ -45,11 +45,11 @@ class Profile extends Component {
 
     Meteor.call(
       'Meteor.users.additionalinfo.update',
-      fullName,
-      street,
-      city,
-      country,
-      postcode,
+      fullName.trim(),
+      street.trim(),
+      city.trim(),
+      country.trim(),
+      postcode.trim(),
     );
 
     this.setState({

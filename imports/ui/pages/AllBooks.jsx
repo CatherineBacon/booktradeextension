@@ -85,6 +85,9 @@ class AllBooks extends Component {
   }
 
   render() {
+    const showAddressReminder = this.props.currentUser &&
+      !this.props.currentUser.street;
+
     return (
       <Row>
         <Col>
@@ -98,9 +101,22 @@ class AllBooks extends Component {
         </Col>
 
         {!this.props.currentUser &&
-          <h2 className="login-reminder text-warning">
-            Remember, you need to <Link to="/profile">log in</Link> to trade!
-          </h2>}
+          <Col>
+            <h2 className="login-reminder text-warning">
+              Remember, you need to <Link to="/profile">log in</Link> to trade!
+            </h2>
+          </Col>}
+
+        {showAddressReminder &&
+          <Col>
+            <h2 className="login-reminder text-warning">
+              Remember, you need to
+              {' '}
+              <Link to="/profile">add your address</Link>
+              {' '}
+              to trade!
+            </h2>
+          </Col>}
 
         <Col>
           <InputGroup>
@@ -191,6 +207,8 @@ const searchTerm = new ReactiveVar('');
 export default createContainer(
   () => {
     const sub = Meteor.subscribe('books', limit.get(), searchTerm.get());
+
+    Meteor.subscribe('Meteor.users.additionalinfo');
 
     Meteor.call('books.countAll', (error, count) => {
       if (error) return console.log(error);
