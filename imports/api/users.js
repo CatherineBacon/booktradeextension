@@ -63,15 +63,10 @@ Meteor.methods({
     check(userTwoId, String);
     check(userTwoTitle, String);
 
-    console.log(Meteor.users.findOne({ _id: userOneId }));
-    console.log(Meteor.users.findOne({ _id: userTwoId }));
     const userOne = Meteor.users.findOne({ _id: userOneId });
     const userTwo = Meteor.users.findOne({ _id: userTwoId });
 
     if (Meteor.isServer) {
-      console.log('userOne: ', userOne.emails[0].address);
-      console.log('userTwo: ', userTwo.emails[0].address);
-
       const textForOne = `Traded ${userOneTitle} for ${userTwoTitle} with ` +
         `${userTwo.fullName} (${userTwo.emails[0].address})\n` +
         `Send ${userOneTitle} to ${userTwo.fullName} at ` +
@@ -93,6 +88,36 @@ Meteor.methods({
         from: 'dummyFrom@mail.com',
         subject: 'Trade agreed!',
         text: textForTwo,
+      });
+    }
+  },
+
+  sendTradeProposedEmail(title, ownerId, proposedByUsername, tradeProposed) {
+    check(title, String);
+    check(ownerId, String);
+    check(proposedByUsername, String);
+    check(tradeProposed, Boolean);
+
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    if (Meteor.isServer) {
+      const to = Meteor.users.findOne({ _id: ownerId }).emails[0].address;
+      const subject = tradeProposed
+        ? 'Trade Proposed!'
+        : 'Trade offer withdrawn!';
+
+      const text = tradeProposed
+        ? `${proposedByUsername} has requested a trade for ${title}. Check ` +
+            `out their books on Book Exchange!`
+        : `${proposedByUsername} no longer wishes to trade ${title}.`;
+
+      Email.send({
+        to,
+        from: 'dummyFrom@mail.com',
+        subject,
+        text,
       });
     }
   },

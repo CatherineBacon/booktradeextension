@@ -142,6 +142,7 @@ MyBooks.propTypes = {
   yourBooksCount: PropTypes.number.isRequired,
   loadMore: PropTypes.func.isRequired,
   canLoadMore: PropTypes.bool.isRequired,
+  currentUser: PropTypes.object,
 };
 
 MyBooks.defaultProps = {

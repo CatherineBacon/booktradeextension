@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import { Email } from 'meteor/email';
 
 export const SuccessfulTrades = new Mongo.Collection('successfulTrades');
 

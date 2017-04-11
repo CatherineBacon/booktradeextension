@@ -150,7 +150,7 @@ class AllBooks extends Component {
         </Col>
 
         <Col>
-          <h3>Check the box to propose a trade</h3>
+          {this.props.currentUser && <h3>Check the box to propose a trade</h3>}
         </Col>
 
         <Col>

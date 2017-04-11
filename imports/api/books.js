@@ -177,6 +177,8 @@ Meteor.methods({
     check(book.tradeProposed, Boolean);
     check(book.owner, String);
 
+    const tradeProposed = !book.tradeProposed;
+
     if (!Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
@@ -203,5 +205,13 @@ Meteor.methods({
         proposedByUsername,
       },
     });
+
+    Meteor.call(
+      'sendTradeProposedEmail',
+      book.title,
+      book.owner,
+      proposedByUsername,
+      tradeProposed,
+    );
   },
 });
