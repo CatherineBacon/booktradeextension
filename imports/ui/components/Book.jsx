@@ -76,17 +76,19 @@ export default class Book extends Component {
             </span>
 
           </OverlayTrigger>
-          {' '}
-          {canDelete &&
+        </h4>
+        {canDelete &&
+          <p>
             <Button
               bsStyle="danger"
               bsSize="xsmall"
-              className="delete"
+              className="delete pull-right"
               onClick={this.deleteThisBook}
             >
-              <Glyphicon glyph="remove" />
-            </Button>}
-        </h4>
+              Remove book {' '}
+              <Glyphicon glyph="trash" />
+            </Button>
+          </p>}
 
         <h4 hidden={this.hideTradeCheckbox()}>
           <Checkbox
