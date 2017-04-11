@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { ReactiveVar } from 'meteor/reactive-var';
 import VisibilitySensor from 'react-visibility-sensor';
+import { Link } from 'react-router-dom';
 import { Row, Col, PageHeader, Badge, Media, Checkbox } from 'react-bootstrap';
 
 import { Books } from '../../api/books';
@@ -73,11 +74,25 @@ class MyBooks extends Component {
 
   render() {
     if (this.props.currentUser) {
+      const showAddressReminder = this.props.currentUser &&
+        !this.props.currentUser.street;
+
       return (
         <Row>
           <Col>
             <PageHeader>My Books</PageHeader>
           </Col>
+
+          {showAddressReminder &&
+            <Col>
+              <h2 className="login-reminder text-warning">
+                Remember, you need to
+                {' '}
+                <Link to="/profile">add your address</Link>
+                {' '}
+                to trade!
+              </h2>
+            </Col>}
 
           <Col>
             <h3>Add book</h3>
@@ -159,6 +174,8 @@ const userProposedCount = new ReactiveVar(0);
 export default createContainer(
   () => {
     Meteor.subscribe('booksByOwner', Meteor.userId(), limit.get());
+
+    Meteor.subscribe('Meteor.users.additionalinfo');
 
     Meteor.call('books.countAll', (error, count) => {
       if (error) return console.log(error);
