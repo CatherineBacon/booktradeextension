@@ -15,6 +15,11 @@ export default class Home extends Component {
             </Col>
           </Row>
           <Row>
+            <Col sm={12}>
+              <Panel>
+                A peer to peer book swapping site. Post books direct to other users!
+              </Panel>
+            </Col>
             <Col sm={6}>
               <Panel>Catalogue your books online</Panel>
             </Col>
