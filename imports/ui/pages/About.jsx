@@ -10,7 +10,7 @@ export default class Home extends Component {
         </Col>
         <Col>
           <p>
-            This app was created as part of the following FreeCodeCamp challenge:
+            This app was originally created as part of the following FreeCodeCamp challenge:
             {' '}
             <a
               href="https://www.freecodecamp.com/challenges/manage-a-book-trading-club"
@@ -27,9 +27,13 @@ export default class Home extends Component {
               </a>
             </strong>
           </p>
+          <p>
+            My parents showed an unprecedented level of enthusiasm for a book swapping app, so based on their expanded criteria, I've fleshed out the user stories and tried to make the whole site more slick.
+          </p>
         </Col>
         <Col>
           <h3>Objective</h3>
+          <p><em>FreeCodeCamp</em></p>
           <p>
             Build a full stack JavaScript app that is functionally similar to
             {' '}
@@ -45,6 +49,18 @@ export default class Home extends Component {
             </li>
             <li>
               I can propose a trade and wait for the other user to accept the trade.
+            </li>
+          </ul>
+          <br />
+          <p><em>The parents</em></p>
+          <p>(some have not yet been fulfilled!)</p>
+          <ul>
+            <li>Make the books a bit prettier and give more information</li>
+            <li>Email users upon a succesful trade</li>
+            <li>Send users addresses when a trade is agreed</li>
+            <li>Add review/comments from last user</li>
+            <li>
+              Search - in general, also by book category, also by location
             </li>
           </ul>
         </Col>

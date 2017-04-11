@@ -89,8 +89,8 @@ class Profile extends Component {
           <p><b>Username</b>: {Meteor.user().username}</p>
           <p><b>Email address</b>: {Meteor.user().emails[0].address}</p>
           {fullName && <p><b>Full name</b>: {fullName}</p>}
-          {street && <p><b>House/Street</b>: {street}</p>}
-          {city && <p><b>Town/City</b>: {city}</p>}
+          {street && <p><b>House / Street</b>: {street}</p>}
+          {city && <p><b>Town / City</b>: {city}</p>}
           {country && <p><b>Country</b>: {country}</p>}
           {postcode && <p><b>Postcode</b>: {postcode}</p>}
 
@@ -111,7 +111,7 @@ class Profile extends Component {
               </Col>
             </FormGroup>
             <FormGroup>
-              <Col xs={2}>House/Street:</Col>
+              <Col xs={2}>House / Street:</Col>
               {' '}
               <Col xs={10}>
                 <FormControl
@@ -123,7 +123,7 @@ class Profile extends Component {
               </Col>
             </FormGroup>
             <FormGroup>
-              <Col xs={2}>City/Town:</Col>
+              <Col xs={2}>City / Town:</Col>
               {' '}
               <Col xs={10}>
                 <FormControl
