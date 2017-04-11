@@ -78,14 +78,14 @@ Meteor.methods({
 
       Email.send({
         to: userOne.emails[0].address,
-        from: 'dummyFrom@mail.com',
+        from: 'no-reply@books.catherinebacon.co.uk',
         subject: 'Trade agreed!',
         text: textForOne,
       });
 
       Email.send({
         to: userTwo.emails[0].address,
-        from: 'dummyFrom@mail.com',
+        from: 'no-reply@books.catherinebacon.co.uk',
         subject: 'Trade agreed!',
         text: textForTwo,
       });
@@ -115,7 +115,7 @@ Meteor.methods({
 
       Email.send({
         to,
-        from: 'dummyFrom@mail.com',
+        from: 'no-reply@books.catherinebacon.co.uk',
         subject,
         text,
       });
@@ -137,7 +137,7 @@ Meteor.methods({
 
       Email.send({
         to,
-        from: 'dummyFrom@mail.com',
+        from: 'no-reply@books.catherinebacon.co.uk',
         subject: 'Trade declined!',
         text: `${declinedBy} has declined your trade request for ${title}. Sorry!`,
       });
