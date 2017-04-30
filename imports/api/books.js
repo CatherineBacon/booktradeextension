@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
+import { Email } from 'meteor/email';
 import { _ } from 'lodash';
 
 export const Books = new Mongo.Collection('books');
@@ -33,9 +34,7 @@ if (Meteor.isServer) {
   });
 
   Meteor.publish('booksByTrader', traderId => {
-    console.log('publish called');
     check(traderId, String);
-    console.log(traderId, this.userId);
     return Books.find({ proposedById: traderId }, { sort: { createdAt: -1 } });
   });
 }
@@ -110,6 +109,16 @@ Meteor.methods({
       proposedById: '',
       proposedByUsername: '',
     });
+
+    // Notify Catherine
+      if (Meteor.isServer) {
+	  Email.send({
+	    to: 'catherine.bacon+books@gmail.com',
+	      from: 'no-reply@books.catherinebacon.co.uk',
+	      subject: `New book added - ${book.title}`,
+	      text: `${Meteor.user().username} added ${book.title} by ${author}`
+	  });
+      }
   },
 
   'books.declineTrade'(book) {

@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { Row, Panel, Col, Jumbotron } from 'react-bootstrap';
+import { createContainer } from 'meteor/react-meteor-data';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { Badge, Row, Panel, Col, Jumbotron } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-export default class Home extends Component {
+class Home extends Component {
   render() {
+    const { bookCount } = this.props;
+      
     return (
       <Row>
         <Col>
@@ -24,7 +28,7 @@ export default class Home extends Component {
               <Panel>Catalogue your books online</Panel>
             </Col>
             <Col sm={6}>
-              <Panel>See all of the books our users own</Panel>
+              <Panel>See all <Badge>{ bookCount }</Badge> books our users have to trade</Panel>
             </Col>
             <Col sm={6}>
               <Panel>
@@ -55,3 +59,16 @@ export default class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  bookCount: React.PropTypes.number
+};
+
+const bookCount = new ReactiveVar(0);
+
+export default createContainer( () => {
+  Meteor.call('books.countAll', (err, res) => bookCount.set(res));
+  return {
+    bookCount: bookCount.get()
+  };
+}, Home);
