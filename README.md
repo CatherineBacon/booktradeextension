@@ -3,7 +3,7 @@
 This app was created as part of the following FreeCodeCamp challenge:
 https://www.freecodecamp.com/challenges/manage-a-book-trading-club
 
-**Final app: https://books.catherinebacon.co.uk**
+**Final app: http://books.catherinebacon.co.uk**
 
 ## Objective
 
